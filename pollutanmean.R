@@ -20,3 +20,9 @@ pollutanmean<-function(directory,pollutant,id=1:332) {
     print(total/observations)
 }
     
+pollutantmean<-function(directory,pollutant,id=1:332){
+ files <- list.files(directory, full.names = TRUE)
+  data <- data.frame()
+  for (id in id) {data <- rbind(data, read.csv(files[id]))}
+  mean (data[,pollutant], na.rm = TRUE)
+ }
