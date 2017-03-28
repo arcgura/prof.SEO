@@ -24,15 +24,13 @@ for(i in 12:175)  {
                   }
             }
       }
+}
 
 ## divide date column from main data and conversion to date class
 for(i in 12:175 ) {
       if (i%%2 == 0) {
             sarcopenia[[i]]<-as.Date(sarcopenia[[i]], "%d/%m/%Y")
             sarco.date<-cbind(sarco.date,sarcopenia[i])
-      }
-      else {
-            sarco.code<-cbind(sarco.code,sarcopenia[i])
       }
 }
 
