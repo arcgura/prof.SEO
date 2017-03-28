@@ -6,6 +6,7 @@ codebook <- read.csv("~/R/codebook.csv",stringsAsFactors = F)
 excode<-codebook$code_for_exclusion
 
 sarcopenia <- read.table("~/R/Sarcopenia.csv", header=TRUE, sep=",", comment.char="", na.strings=c(excode,"NA","","."), stringsAsFactors=F)
+library(readr)
 index.date<-parse_date(sarcopenia$Date, format="%d-%b-%y")
 
 ## reset number
