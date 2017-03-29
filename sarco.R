@@ -61,3 +61,17 @@ for(i in 1:nrow(sarco.code)) {
       }
 }
 print(CT.people)
+
+## Mutation 'scarco.date' to difference of date  
+## and print histogram
+sarco.date[,2]<-index.date
+dif<-sarco.date
+for(i in 4:ncol(sarco.date) ) {
+            dif[,i]<-as.numeric(difftime(sarco.date[,i],sarco.date[,2], units="days"))
+}
+
+dif2<-as.matrix(dif[,c(4:85)])
+
+hist(dif2, breaks = 100 )
+
+
