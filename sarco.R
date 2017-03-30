@@ -75,21 +75,32 @@ dif2<-as.matrix(dif[,c(4:85)])
 
 hist(dif2, breaks = 100 )
 
+## sort out cases of checking CT on index date.
+s<-vector()
+
+for (i in 1:1547) {
+      if ( 0 %in% dif[i,c(4:85)]) {
+          s[i] <- i
+      }
+}
+s2<-s[!is.na(s)]
+index<-dif[s2,]
+
 
 ## make function for subsetting according to target range
 
-dif3<-dif2
+dif3  <-index
 
 sort<-function(pre_low, pre_up, post_low, post_up) {
-  for(i in 1:1547) {
-    for(j in 1:82) {
-      if ( is.na(dif2[i,j]) == TRUE ) {
+  for(i in 1:667) {
+    for(j in 4:85) {
+      if ( is.na(index[i,j]) == TRUE ) {
         dif3[i,j] <- NA
       }
-      else if  (dif2[i,j]  >= pre_low & dif2[i,j] <= pre_up)   {
+      else if  (index[i,j]  >= pre_low & index[i,j] <= pre_up)   {
         dif3[i,j]<-"PRE"
       }     
-      else if  (dif2[i,j] >= post_low && dif2[i,j] <= post_up)    {
+      else if  (index[i,j] >= post_low & index[i,j] <= post_up)    {
         dif3[i,j]<-"POST"
       }
       else{
@@ -97,20 +108,19 @@ sort<-function(pre_low, pre_up, post_low, post_up) {
       }
     }
   }
-
   count<-0
   result<-data.frame()
   result2<-data.frame()
-  for(i in 1:1547) {
-    if (length(levels(as.factor(dif3[i,])))==2) {
+  for(i in 1:667) {
+    if (length(levels(as.factor(as.matrix(dif3[i,c(4:85)])))) == 2) {
       count<-count+1
-      result<-rbind(result,sarco.date[i,])
-      result2<-rbind(result2, dif[i,])
+      result<-rbind(result,sarco.date[dif3[i,1],])
+      result2<-rbind(result2, dif[dif3[i,1],])
     }
   }  
   print(count)
   View(result)
   View(result2)
 }
-
 sort(-180,-90,6,8)
+
