@@ -74,4 +74,36 @@ dif2<-as.matrix(dif[,c(4:85)])
 
 hist(dif2, breaks = 100 )
 
+## subsetting according to target range
+
+dif3<-dif2
+
+
+for(i in 1:1547) {
+  for(j in 1:82) {
+    if ( is.na(dif2[i,j]) == TRUE ) {
+      dif3[i,j] <- NA
+    }
+    else if  (dif2[i,j]  >= -180 & dif2[i,j] <= -90)   {
+      dif3[i,j]<-"PRE"
+    }     
+    else if  (dif2[i,j] >= 6 && dif2[i,j] <= 8)    {
+      dif3[i,j]<-"POST"
+    }
+    else{
+      dif3[i,j]<-NA
+    }
+  }
+}
+
+count<-0
+result<-data.frame()
+for(i in 1:1547) {
+  if (length(levels(as.factor(dif3[i,])))==2) {
+    count<-count+1
+    result<-rbind(result,sarco.date[i,])    
+  }
+}  
+print(count)
+View(result)
 
