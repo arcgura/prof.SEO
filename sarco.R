@@ -41,6 +41,7 @@ for(i in 1:nrow(sarco.code) ) {
       code.row<-sarco.code[i,]
       code.row.n<-sum(!is.na(code.row[,c(4:85)]))
       sarco.code[i,3]<-code.row.n
+      sarco.date[i,3]<-code.row.n
 }
 
 CT.number<-sum(sarco.code[,3])
