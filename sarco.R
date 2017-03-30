@@ -75,38 +75,42 @@ dif2<-as.matrix(dif[,c(4:85)])
 
 hist(dif2, breaks = 100 )
 
-## subsetting according to target range
+
+## make function for subsetting according to target range
 
 dif3<-dif2
 
-
-for(i in 1:1547) {
-  for(j in 1:82) {
-    if ( is.na(dif2[i,j]) == TRUE ) {
-      dif3[i,j] <- NA
-    }
-    else if  (dif2[i,j]  >= -180 & dif2[i,j] <= -90)   {
-      dif3[i,j]<-"PRE"
-    }     
-    else if  (dif2[i,j] >= 6 && dif2[i,j] <= 8)    {
-      dif3[i,j]<-"POST"
-    }
-    else{
-      dif3[i,j]<-NA
+sort<-function(pre_low, pre_up, post_low, post_up) {
+  for(i in 1:1547) {
+    for(j in 1:82) {
+      if ( is.na(dif2[i,j]) == TRUE ) {
+        dif3[i,j] <- NA
+      }
+      else if  (dif2[i,j]  >= pre_low & dif2[i,j] <= pre_up)   {
+        dif3[i,j]<-"PRE"
+      }     
+      else if  (dif2[i,j] >= post_low && dif2[i,j] <= post_up)    {
+        dif3[i,j]<-"POST"
+      }
+      else{
+        dif3[i,j]<-NA
+      }
     }
   }
+
+  count<-0
+  result<-data.frame()
+  result2<-data.frame()
+  for(i in 1:1547) {
+    if (length(levels(as.factor(dif3[i,])))==2) {
+      count<-count+1
+      result<-rbind(result,sarco.date[i,])
+      result2<-rbind(result2, dif[i,])
+    }
+  }  
+  print(count)
+  View(result)
+  View(result2)
 }
 
-count<-0
-result<-data.frame()
-result2<-data.frame()
-for(i in 1:1547) {
-  if (length(levels(as.factor(dif3[i,])))==2) {
-    count<-count+1
-    result<-rbind(result,sarco.date[i,])
-    result2<-rbind(result2, dif[i,])
-  }
-}  
-print(count)
-View(result)
-View(result2)
+sort(-180,-90,6,8)
