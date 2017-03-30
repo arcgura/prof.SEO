@@ -103,7 +103,7 @@ for(i in 1:1547) {
   if (length(levels(as.factor(dif3[i,])))==2) {
     count<-count+1
     result<-rbind(result,sarco.date[i,])
-    result2<-rbind(result2, dif3[i,])
+    result2<-rbind(result2, dif[i,])
   }
 }  
 print(count)
