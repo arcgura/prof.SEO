@@ -124,3 +124,5 @@ sort<-function(pre_low, pre_up, post_low, post_up) {
 }
 sort(-180,-90,6,8)
 
+# I can not find "2010-9-15" and "2011-12-13" in "Date" column of given raw data. 
+# So my final result is "17"
