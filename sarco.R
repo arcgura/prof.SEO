@@ -71,8 +71,18 @@ for(i in 4:ncol(sarco.date) ) {
             dif[,i]<-as.numeric(difftime(sarco.date[,i],sarco.date[,2], units="days"))
 }
 
-dif2<-as.matrix(dif[,c(4:85)])
 
+## 2년 사이 data 만 추출
+
+difsub<-dif[,c(4:85)]
+difsub[difsub < -365] <-NA
+difsub[difsub > 365] <-NA
+dif[,c(4:85)]<-difsub
+
+
+## print histogram
+
+dif2<-as.matrix(dif[,c(4:85)])
 hist(dif2, breaks = 100 )
 
 ## sort out cases of checking CT on index date.
