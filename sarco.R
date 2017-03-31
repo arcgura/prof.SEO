@@ -126,5 +126,8 @@ sort<-function(pre_low, pre_up, post_low, post_up) {
 }
 sort(-180,-90,6,8)
 
-# I can not find "2010-9-15" and "2011-12-13" in "Date" column of given raw data. 
-# So my final result is "17"
+# I can not find "2011-9-15" and "2011-12-13" in "Date" column of given raw data. 
+# Instead of that , My result include "2011-9-14" and "2011-12-14"
+# another cases is same between my result and prof.seo result
+
+#---> above problem is explained by [ my result show "Index Date" but prof.seo result show "Index CT date"(-1,0,1) ]
