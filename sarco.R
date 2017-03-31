@@ -79,11 +79,13 @@ hist(dif2, breaks = 100 )
 s<-vector()
 
 for (i in 1:1547) {
-      if ( 0 %in% dif[i,c(4:85)]) {
-          s[i] <- i
-      }
+  if ( 0 %in% dif[i,c(4:85)]  | -1 %in% dif[i,c(4:85)]  | 1 %in% dif[i,c(4:85)] ) {
+    s[i] <- i
+  }
+
 }
 s2<-s[!is.na(s)]
+length(s2)
 index<-dif[s2,]
 
 
@@ -92,7 +94,7 @@ index<-dif[s2,]
 dif3  <-index
 
 sort<-function(pre_low, pre_up, post_low, post_up) {
-  for(i in 1:667) {
+  for(i in 1:821) {
     for(j in 4:85) {
       if ( is.na(index[i,j]) == TRUE ) {
         dif3[i,j] <- NA
@@ -111,7 +113,7 @@ sort<-function(pre_low, pre_up, post_low, post_up) {
   count<-0
   result<-data.frame()
   result2<-data.frame()
-  for(i in 1:667) {
+  for(i in 1:821) {
     if (length(levels(as.factor(as.matrix(dif3[i,c(4:85)])))) == 2) {
       count<-count+1
       result<-rbind(result,sarco.date[dif3[i,1],])
