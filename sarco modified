@@ -84,10 +84,6 @@ index[,177]<-POST
 
 result <- data.frame()
 
-for(i in 1:821) {
-  if ( "TRUE" %in% index[i,176] && "TRUE" %in% index[i,177]) {
-    result<-rbind(result, index[i,])
-  }
-}
+result<-index[index[,86]==TRUE & index[,87]==TRUE,]
 
 nrow(result)
