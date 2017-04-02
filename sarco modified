@@ -71,33 +71,23 @@ length(s2)
 index<-s_raw_mut[s2,]
 
 ## pre: 90~180 days, post = 6,7,8 days
-final<-index
-
+PRE<-vector()
+POST<-vector()
 for(i in 1:821) {
-    for(j in 12:174) {
-        if (j%%2 == 0) {
-            if ( is.na(index[i,j]) ) {
-                final[i,j] <- NA
-            }
-            else if  (index[i,j]  >= -180 & index[i,j] <= -90   )   {
-                final[i,j]<-"PRE"
-            }
-            else if  (index[i,j] >= 6 & index[i,j] <= 8)    {
-                final[i,j]<-"POST"
-            }
-            else{
-                final[i,j]<-NA
-            }
-        }
-    }
-}
+      PRE[i]<-any( index[i,c(12:175)] >= -180 & index[i,c(12:175)] <= -90, na.rm=TRUE)
+      POST[i]<- any( index[i,c(12:175)] >= 6 & index[i,c(12:175)] <= 8, na.rm=TRUE)
+}     
+
+
+index[,176]<-PRE
+index[,177]<-POST
 
 result <- data.frame()
 
 for(i in 1:821) {
-    if ( "PRE" %in% final[i,c(12:175)] && "POST" %in% final[i,c(12:175)]) {
-        result<-rbind(result, index[i,])
-    }
+  if ( "TRUE" %in% index[i,176] && "TRUE" %in% index[i,177]) {
+    result<-rbind(result, index[i,])
+  }
 }
 
 nrow(result)
