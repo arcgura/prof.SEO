@@ -146,12 +146,24 @@ rankall <- function(out, n ) {
       r.host<-vector()
       r.state<-vector()
       
+
+                               ##################################
+      
     for (i in 1:54) {
        state.sub<-subset(outcome4, outcome4$State == i)
-        
+       
+       if ( n = "worst") {
+               
+       }      
+       else if ( n = "best") {
+         n <- 1
+       }
+       else {
+         n <- n
+                }        
       
-      
-      if ( out == "heart attack") {
+                            ########################################
+       if ( out == "heart attack") {
         sub.out<-subset(state.sub, is.na(state.sub[,4]) == FALSE )
         rank<-rank(sub.out[,4], ties.method = "first" )
         sub.out<-cbind(sub.out, rank)
@@ -196,14 +208,14 @@ rankall <- function(out, n ) {
        
 
     }
-      final.result<-cbind(r.host,r.state)
+      final.result<-as.data.frame(cbind(r.host,r.state))
       print(final.result)          
 }      
     
  
 aa<-rankall("heart attack", 20)
 
-bb<-rankall("pneumonia", "worst")
+bb<-rankall("pneumonia", 118)
 
 cc<-rankall("heart failure",1)
 
