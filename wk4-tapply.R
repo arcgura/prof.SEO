@@ -13,6 +13,7 @@ best <- function(state, out) {
   ## Read outcome data
   ## Check that state and outcome are valid
   ## Return hospital name in that state with lowest 30-day death
+  
   outcome2<-outcome[,c(1,2,7,11,17,23)]
   outcome2<-outcome2[order(outcome2$Hospital.Name), ] 
   outcome_sub<-subset(outcome2, outcome2$State == state)
@@ -27,7 +28,10 @@ best <- function(state, out) {
     result<-x[x$rank==1,2]
     })
   
-
+  if ( (state %in% outcome2$State) == FALSE ) {
+    stop("invaild state")
+  }
+  
   if (out =="heart attack") {
     print(aa[[1]])
   }
@@ -37,13 +41,21 @@ best <- function(state, out) {
   else if (out == "pneumonia") {
     print(aa[[3]])
   }
+  else {
+    stop("invalid outcome")
+  }
 
+
+  
 }
 
 best("TX", "heart attack")
 best("TX", "heart failure")
 best("MD", "heart attack")
 best("MD", "pneumonia")
+best("BB", "heart attack")
+best("NY", "hert attack")
+
 
 
 
@@ -92,7 +104,8 @@ rankhospital <- function(state, out, num = "best") {
   
   if (num > nrow(outcome_sub)) {
     print(NA)
-    stop()
+    stop("invalid number")
+    
   }
   
   aa<-lapply(out.list, function(x){
@@ -148,28 +161,69 @@ rankall <- function(out, n ) {
   r.state<-vector()
   
 
+  #out.list<-list()
+  #out.list[[1]]<-outcome3[,c(1,2,3,4)]
+  #out.list[[2]]<-outcome3[,c(1,2,3,5)]
+  #out.list[[3]]<-outcome3[,c(1,2,3,6)]
+  
   out.list<-list()
-  out.list[[1]]<-outcome3[,c(1,2,3,4)]
-  out.list[[2]]<-outcome3[,c(1,2,3,5)]
-  out.list[[3]]<-outcome3[,c(1,2,3,6)]
+  out.list[[1]]<-outcome2[,c(1,2,3,4)]
+  out.list[[2]]<-outcome2[,c(1,2,3,5)]
+  out.list[[3]]<-outcome2[,c(1,2,3,6)]
   
+  #3#if ( out == "heart attack") {
+  #  state.sub<-subset(outcome4, outcome4$State == i)
+  #  sub.out<-subset(state.sub, is.na(state.sub[,4]) == FALSE )
+  #  rank<-rank(sub.out[,4], ties.method = "first" )
+  #  sub.out<-cbind(sub.out, rank)
+  #  if( n > nrow(sub.out) ) {
+  #    r.host[i] <- NA
+  #    r.state[i] <- fa2[i] 
+  #  }
+  #  else {
+  #    r.host[i]  <-  sub.out[sub.out$rank==n,2] 
+  #    r.state[i] <- fa2[i]
+  #  }
+  #}
 
-  
-  
   aa<-lapply(out.list, function(x){
-    for (i in 1:54) {
+    for (i in fa2) {
       state.sub<-subset(x, x$State == i)
-      sub.out<-subset(state.sub, is.na(state.sub[,4]) == FALSE )
-      rank<-rank(sub.out[,4], ties.method = "first")
-      sub.out<-cbind(sub.out,rank)
-    
-        r.host[i] <- sub.out[sub.out$rank == n, 2]
-        r.state[i] < fa2[i]
-    
+      rmna<-subset(state.sub, is.na(state.sub[,4]) == FALSE )
+      rank<-rank(rmna[,4], ties.method = "first")
+      rmna<-cbind(rmna,rank)
+   
+      if ( n > nrow(rmna)) {
+        r.host[i] <- NA
+        r.state[i] <- i
       }
-    
-    final.result<-as.data.frame(cbind(r.host,r.state))
+      else if (n <= nrow(rmna)) {
+        r.host[i] <- rmna[rmna$rank == n, 2]
+        r.state[i] <- i
+      }
+    }
+    result<-as.data.frame(cbind(r.host,r.state))
   })
+  
+  #aa<-lapply(out.list, function(x){
+   # for (i in 1:54) {
+    #  state.sub<-subset(x, x$State == i)
+     # sub.out<-subset(state.sub, is.na(state.sub[,4]) == FALSE )
+    #  rank<-rank(sub.out[,4], ties.method = "first")
+    #  sub.out<-cbind(sub.out,rank)
+      
+    #  if ( n > nrow(sub.out)) {
+    #    r.host[i] <- NA
+    #    r.state[i] < fa2[i]
+    #  }
+    #  else {
+    #    r.host[i] <- sub.out[sub.out$rank == n, 2]
+    #    r.state[i] < fa2[i]
+    #  }
+    
+#    final.result<-as.data.frame(cbind(r.host,r.state))
+#      }
+#  })
     
   
   if (out =="heart attack") {
@@ -187,8 +241,8 @@ rankall <- function(out, n ) {
   
   
   
-bb<-rankall("heart attack", 2)
+bb<-rankall("heart attack", 20)
   
-cc<-rankall("pneumonia", 50)
+cc<-tail(rankall("pneumonia", 50))
   
-dd<-rankall("heart failure",10)
+dd<-tail(rankall("heart failure",10))

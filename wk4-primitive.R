@@ -152,15 +152,7 @@ rankall <- function(out, n ) {
     for (i in 1:54) {
        state.sub<-subset(outcome4, outcome4$State == i)
        
-       if ( n = "worst") {
-               
-       }      
-       else if ( n = "best") {
-         n <- 1
-       }
-       else {
-         n <- n
-                }        
+        
       
                             ########################################
        if ( out == "heart attack") {
