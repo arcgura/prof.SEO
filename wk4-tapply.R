@@ -154,7 +154,7 @@ out.hf<-out.hf[order(out.hf[,4], out.hf[,2]), ]
 out.pn<-out.pn[order(out.pn[,4], out.pn[,2]), ]
 
 
-rankall <- function(out, n ) {
+rankall <- function(out, n=1 ) {
   ## Read outcome data
   ## Check that state and outcome are valid
   ## For each state, find the hospital of the given rank
@@ -204,4 +204,4 @@ rankall <- function(out, n ) {
 }
 rankall("heart attack", 20)
 rankall("pneumonia", "worst")
-rankall("heart failure",10)
+rankall("heart failure")
