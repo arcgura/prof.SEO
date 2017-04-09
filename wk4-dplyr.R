@@ -66,6 +66,8 @@ outcome4<-arrange(outcome3, rate, hospital)
 state.level<-levels(as.factor(outcome4$state))
 
 rankhospital <- function(st, out, num = "best") {
+  if ( (st %in% state.level ) == FALSE ) {  stop("invaild state") }
+  ######
   if (num == "best") {num <- 1}
   else if (num == "worst")  {num <- num }
   else if (num > nrow(outcome)) {print(NA) ;stop("invalid number")}
