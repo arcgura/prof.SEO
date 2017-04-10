@@ -1,6 +1,7 @@
 ### 2 Finding the best hospital in a state
 rm(list=ls())
-
+install.packages("dplyr")
+install.packages("tidyr")
 library(dplyr)
 library(tidyr)
 
@@ -90,6 +91,7 @@ rankhospital("MN", "heart attack", 5000)
 
 ###  4 Ranking hospitals in all states
 rm(list=ls())
+
 
 library(dplyr)
 library(tidyr)
