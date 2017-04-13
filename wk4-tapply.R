@@ -1,5 +1,4 @@
 ### 2 Finding the best hospital in a state
-rm(list=ls())
 
 outcome <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
 outcome[, 11] <- as.numeric(outcome[, 11])  #heart attack   4
@@ -57,7 +56,7 @@ best("NY", "hert attack")
    
 
 ### 3 Ranking hospitals by outcome in a state
-rm(list=ls())
+
 
 outcome <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
 
@@ -133,7 +132,7 @@ rankhospital("MN", "heart attack", 5000)
 
 
 ###  4 Ranking hospitals in all states
-rm(list=ls())
+
 
 outcome <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
 
