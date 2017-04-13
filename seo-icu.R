@@ -1,5 +1,5 @@
 #read date
-rm(list=ls())
+
 raw <-read.csv("ICU.csv")
 
 ### split by sec
