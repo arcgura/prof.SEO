@@ -1,4 +1,3 @@
-rm(list=ls())
 
 ## read data without exclusion code
 
