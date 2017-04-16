@@ -105,7 +105,7 @@ dif3  <-index
 sort<-function(pre_low, pre_up, post_low, post_up) {
   for(i in 1:821) {
     for(j in 4:85) {
-      if ( is.na(index[i,j]) == TRUE ) {
+      if ( is.na(index[i,j]) == TRUE ) {       # if NA go into comparison logic, that make error. so before that, check NA at this "if" syntax 
         dif3[i,j] <- NA
       }
       else if  (index[i,j]  >= pre_low & index[i,j] <= pre_up)   {
