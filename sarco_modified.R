@@ -84,6 +84,6 @@ index[,177]<-POST
 
 result <- data.frame()
 
-result<-index[index[,86]==TRUE & index[,87]==TRUE,]
+result<-index[index[,176]==TRUE & index[,177]==TRUE,]
 
 nrow(result)
