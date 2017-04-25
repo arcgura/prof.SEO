@@ -1,13 +1,13 @@
 rm(list=ls())
 
-x_test<-read.table("X_test.txt")
-y_test<-read.table("Y_test.txt")
-subject_test <- read.table("subject_test.txt")
-x_train<-read.table("X_train.txt")
-y_train<-read.table("y_train.txt")
-subject_train <- read.table("subject_train.txt")
-feature<-read.table("features.txt")
-activity_labels<-read.table("activity_labels.txt", colClasses = "character")
+x_test<-read.table("~/Documents/R/c3w4/X_test.txt")
+y_test<-read.table("~/Documents/R/c3w4/Y_test.txt")
+subject_test <- read.table("~/Documents/R/c3w4/subject_test.txt")
+x_train<-read.table("~/Documents/R/c3w4/X_train.txt")
+y_train<-read.table("~/Documents/R/c3w4/y_train.txt")
+subject_train <- read.table("~/Documents/R/c3w4/subject_train.txt")
+feature<-read.table("~/Documents/R/c3w4/features.txt")
+activity_labels<-read.table("~/Documents/R/c3w4/activity_labels.txt", colClasses = "character")
 
 
 
@@ -78,8 +78,9 @@ names(sub_data)<-gsub("gravity", "Gravity", names(sub_data))
 ## Step5  From the data set in step 4, creates a second, independent tidy data 
 ##        set with the average of each variable for each activity and each subject.
 
-
 library(dplyr)
+library(tidyr)
+
 
 sub_data[,1]<-as.factor(sub_data[,1])
 sub_data[,2]<-as.factor(sub_data[,2])
@@ -88,19 +89,8 @@ tbl_data<-tbl_df(sub_data)
 tbl_data
 
 group_data<-group_by(tbl_data, subject, activity)
-head(group_data)
 
+Tidy<-summarize_all(group_data, mean)
 
-rm(tidy_data)
-rm(mean_data)
-mean_data<-vector()
-for (i in 3:88) {
-  mean_data[i]<-summarize(group_data, a=mean(sub_data[,i]))[3]
-  
-}
+write.table(Tidy, "~/Documents/R/c3w4/Tidy.txt", sep=",", row.names=TRUE, col.names=TRUE)
 
-
-
-
-
-names(group_data[3])
