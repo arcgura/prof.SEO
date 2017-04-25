@@ -1,1 +1,1 @@
-# datasciencecoursera
+# R lecture, Prof. SEO
