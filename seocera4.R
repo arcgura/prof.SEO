@@ -32,6 +32,8 @@ for (i in 1:82) {
   dif.date[[i]] <- as.numeric(as.Date(date.data[[i]], "%d/%m/%Y") - demographic.data[,2])
 }
 
+sum(!is.na(date.data)) 
+
 hist(as.matrix(dif.date), breaks = 100 )
 
 ## make index for "diff.date"
@@ -41,14 +43,16 @@ dif.date <- cbind(Number, dif.date)
 ## makle variable to value (get tidy data)
 tidy.dif.date <- gather(dif.date, CT, dif, pre_CT01_date:post_CT50_date, na.rm = TRUE )
 
-## sorting for solving of tie-break (tie-break rule : higer)
-arr.tidy.dif.date <- arrange(tidy.dif.date, Number, desc(dif))
+     ### sorting for solving of tie-break (tie-break rule : higer)
+     #arr.tidy.dif.date <- arrange(tidy.dif.date, Number, desc(dif))
 
 ## make a subset according to ranges of given date differences
-tidy.low <- filter(arr.tidy.dif.date, dif >= -180 & dif<=-90)
-tidy.high <- filter(arr.tidy.dif.date, dif >= -1 & dif<=1)
+tidy.low <- filter(tidy.dif.date, dif >= -180 & dif<=-90)
+tidy.high <- filter(tidy.dif.date, dif >= -1 & dif<=1)
 
-## remove extra value according to tie-break rule      
+## remove extra value according to tie-break rule (pre : lower / index : higher)  
+tidy.low <- arrange(tidy.low, Number, dif)
+tidy.high <- arrange(tidy.high, Number, desc(dif))
 rm.low <- tidy.low[!duplicated(tidy.low$Number),]
 rm.high <- tidy.high[!duplicated(tidy.high$Number),]
 
@@ -58,11 +62,23 @@ rm.low.sub <- filter(rm.low, Number %in% inter)
 rm.high.sub <- filter(rm.high, Number %in% inter)
 demo.sub<-filter(demographic.data, Number %in% inter)
 
-## merging of tidy datas
-pre_CT<-rm.low.sub$dif
-index_CT<-rm.high.sub$dif
-merge_tidy <- cbind(demo.sub, pre_CT, index_CT)
+## merging of tidy data
+
+#pre_CT<-rm.low.sub$dif
+#index_CT<-rm.high.sub$dif
+#merge_tidy <- cbind(demo.sub, pre_CT, index_CT)
+
+names(rm.low.sub) <- c("Number", "pre.CT", "pre.CT.date")
+names(rm.high.sub) <- c("Number", "index.CT", "index.CT.date")
+merge1 <- merge(rm.low.sub, rm.high.sub)
+merge2 <- merge(demo.sub, merge1)
+
 
 ## converting date differencce to CT date
-merge_tidy$pre_CT <- merge_tidy$pre_CT + merge_tidy$Date
-merge_tidy$index_CT <- merge_tidy$index_CT + merge_tidy$Date
+
+#merge_tidy$pre_CT <- merge_tidy$pre_CT + merge_tidy$Date
+#merge_tidy$index_CT <- merge_tidy$index_CT + merge_tidy$Date
+
+merge2$pre.CT.date <- merge2$pre.CT.date + merge2$Date
+merge2$index.CT.date <- merge2$index.CT.date + merge2$Date
+
