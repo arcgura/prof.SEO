@@ -81,6 +81,7 @@ merge2 <- merge(demo.sub, merge1)
 #merge_tidy$pre_CT <- merge_tidy$pre_CT + merge_tidy$Date
 #merge_tidy$index_CT <- merge_tidy$index_CT + merge_tidy$Date
 
-merge2$pre.CT.date <- merge2$pre.CT.date + merge2$Date
-merge2$index.CT.date <- merge2$index.CT.date + merge2$Date
+# merge2$pre.CT.date <- merge2$pre.CT.date + merge2$Date
+# merge2$index.CT.date <- merge2$index.CT.date + merge2$Date
 
+merge2 <- mutate(merge2, pre.CT.date = pre.CT.date + merge2$Date, index.CT.date = index.CT.date + merge2$Date)
