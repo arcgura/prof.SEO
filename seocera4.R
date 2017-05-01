@@ -15,12 +15,14 @@ sarcopenia[,2]<-index.date
 ## divide to demographic, CT code, CT date data
 demographic.data<-sarcopenia[,c(1:10)]
 
-l.code <- grepl("code", names(sarcopenia))
-code.data <- sarcopenia[,l.code]
+  #l.code <- grepl("code", names(sarcopenia))
+  #code.data <- sarcopenia[,l.code]
+code.data <- select(sarcopenia, contains("_code"))
 sum(!is.na(code.data)) 
 
-l.data <- grepl("date", names(sarcopenia))
-date.data <- sarcopenia[, l.data]
+  #l.data <- grepl("date", names(sarcopenia))
+  #date.data <- sarcopenia[, l.data]
+date.data <- select(sarcopenia, contains("_date"))
 sum(!is.na(date.data)) 
 
 
