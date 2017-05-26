@@ -1,5 +1,5 @@
 library(dplyr)
-library(ggplot2)
+
 
 ######## red data
 
@@ -38,7 +38,9 @@ yymmdd <- strptime(rawdata$내원일자, "%Y%m%d")
 year <- unclass(yymmdd)$year   ; year
 wday <- unclass(yymmdd)$wday ; wday
 month <- unclass(yymmdd)$mon ; month
+yearmonth <- 
 rawdata <- cbind(rawdata, yymmdd, year, wday, month)
+
 
 # conversion 'visit_time' and make 'hour_data'
 time_temp <- sprintf("%04d", rawdata$내원시간) 
@@ -212,4 +214,7 @@ as.data.frame(table(best$burn_place))
 as.data.frame(table(best$burn_place2))
 as.data.frame(table(best$cause))
 as.data.frame(table(best$cricumstance_of_injury))
+
+
+
 
