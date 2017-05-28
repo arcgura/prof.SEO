@@ -35,3 +35,6 @@ ggplot(subdata, aes(x = burn, y= pulse_rate)) + geom_boxplot(na.rm = TRUE)
 
 ggplot(subdata, aes(x = route)) + geom_bar() + facet_grid(.~route_vehicle)
 
+
+
+hist(yymmdd, "month")
