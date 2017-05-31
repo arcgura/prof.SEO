@@ -10,15 +10,18 @@ kcdc <- read.csv("/Users/jd5/Dropbox/R/seo/kcdc7.csv", header = TRUE)
 
 
 # read bestian data
-best <- read.csv("/Users/jd5/Dropbox/R/seo/1602_1704_2.csv", header = TRUE, na.strings = "", stringsAsFactors = FALSE)
+best <- read.csv("/Users/jd5/Dropbox/R/seo/1602_1704_3.csv", header = TRUE, sep = ",", stringsAsFactors = FALSE)
 eradm <- read.csv("/Users/jd5/Dropbox/R/seo/1602_1704_ER_adm.csv", header = TRUE, na.strings = "")
 chart_nu <- eradm$chart_nu
 best[best$chart_nu %in% chart_nu, 14] <- "응급의학과"
-
+best[3943,10] <- "남양주시"
+best[best$location_2 == "여주군",] <- "여주시"
 
 # read number of population according to region
 population <- read.csv("/Users/jd5/Dropbox/R/seo/population_city2.csv",   header = TRUE, na.strings = "", stringsAsFactors = FALSE)
-
+population_seoul <- read.csv("/Users/jd5/Dropbox/R/seo/population_seoul.csv",   header = TRUE, na.strings = "", stringsAsFactors = FALSE)
+population_gg <- read.csv("/Users/jd5/Dropbox/R/seo/population_gyunggi.csv",   header = TRUE, na.strings = "", stringsAsFactors = FALSE)
+population_sg <- rbind(population_seoul, population_gg)
 
 
 ################## 병원용
@@ -191,5 +194,13 @@ subdata <- select(rawdata, X, burn, region, yymmdd, year, yearmonth, month, wday
     age, age_group, sex, route, route_vehicle, cause_disease, cause_intention, cause_vector, 응급증상.해당유무, 
     systolic_BP, diastolic_BP, pulse_rate, respiratory_rate, temperature, result_ER, 전원.보낸.의료기관종류)
 
+
+
+
+####### cleaning of Bestian Data
+
+as.data.frame(table(best$sex))
+as.data.frame(table(best$Decade))
+as.data.frame(table(best$city1))
 
 
