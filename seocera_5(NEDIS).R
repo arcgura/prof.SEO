@@ -26,17 +26,27 @@ population_sg <- rbind(population_seoul, population_gg)
 
 ################## 병원용
 
-# Sys.setlocale("LC_ALL", "English")
+library(readr)
+
+read.any <- function(text, sep = "", ...) {
+     encoding <- as.character(guess_encoding(text)[1,1])
+     setting <- as.character(tools::file_ext(text))
+     if(sep != "" | !(setting  %in% c("csv", "txt")) ) setting <- "custom"
+     separate <- list(csv = ",", txt = "\n", custom = sep)
+     result <- read.table(text, sep = separate[[setting]], fileEncoding = encoding, ...)
+     return(result)
+     }
 
 # read NEDIS data
 
-# rawdata <- read.table("data.csv", header = TRUE , sep = ",", na.strings=c("NA","","."), stringsAsFactors = FALSE, encoding = "UTF-8")
-# umls <- read.table("umls.txt", header = TRUE, sep="\t", quote = "", strip.white = TRUE, na.strings=c("NA","","."), stringsAsFactors = FALSE)
-#  kcdc <- read.csv("kcdc7.csv", header = TRUE)
+# rawdata <- read.any("data.csv", header = TRUE , sep = ",", na.strings=c("NA","","."), stringsAsFactors = FALSE)
+rawdata <- read.table("data.csv", header = TRUE , sep = ",", na.strings=c("NA","","."), stringsAsFactors = FALSE, fileEncoding = "UTF-8")
+umls <- read.table("umls.txt", header = TRUE, sep="\t", quote = "", strip.white = TRUE, na.strings=c("NA","","."), stringsAsFactors = FALSE)
+kcdc <- read.csv("kcdc7.csv", header = TRUE)
 
 
 # read bestian data
-#  best <- read.csv("1602_1704_2.csv", header = TRUE, na.strings = "", stringsAsFactors = FALSE)
+#  best <- read.table("1602_1704_2.csv", header = TRUE, na.strings = "", stringsAsFactors = FALSE, fileEndoding = "UTF-8)
 #  eradm <- read.csv("1602_1704_ER_adm.csv", header = TRUE, na.strings = "")
 # chart_nu <- eradm$chart_nu
 #  best[best$chart_nu %in% chart_nu, 14] <- "응급의학과"
@@ -125,6 +135,7 @@ rawdata[rawdata$pulse_rate >= 300, 22] <- NA
 rawdata[rawdata$respiratory_rate >= 100, 23] <- NA
 rawdata[rawdata$temperature >= 60, 24] <- NA
 
+
 boxplot(rawdata$temperature)
 
 
@@ -144,6 +155,8 @@ burn_umls <- burn_umls[!grepl("Mc", burn_umls$english), ]
 burn_umls_code <- burn_umls$CODE
 
 burndata_umls <- filter(rawdata,  주증상.1 %in% burn_umls_code | 주증상.2 %in% burn_umls_code | 주증상.3 %in% burn_umls_code)
+
+rawdata[rawdata$주증상.1 %in% burn_umls_code,]
 
 
 #  burn data according to kcdc7(dx code)
